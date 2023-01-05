@@ -96,6 +96,7 @@ return packer.startup(function(use)
     use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
     use 'tpope/vim-commentary'
 
+    use 'ThePrimeagen/vim-be-good'
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
