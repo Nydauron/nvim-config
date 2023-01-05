@@ -35,6 +35,7 @@ local options = {
     sidescrolloff = 8,
     guifont = "monospace:h17",                -- the font used in graphical neovim applications
     autochdir = true,                         -- automatically changes to the current working directory of the file
+    colorcolumn = "100"                       -- visually shows vertical column at char 100
 }
 
 vim.opt.shortmess:append "c"
