@@ -91,7 +91,7 @@ return packer.startup(function(use)
     use 'nvim-telescope/telescope-media-files.nvim'
 
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-    use 'p00f/nvim-ts-rainbow'
+    use 'mrjones2014/nvim-ts-rainbow'
 
     use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
     use 'tpope/vim-commentary'
