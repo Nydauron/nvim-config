@@ -14,4 +14,4 @@ end
 
 galaxyline_colors['doom-one'] = highlights
 
-require("galaxyline.themes.eviline")
+require("galaxyline.themes.spaceline")

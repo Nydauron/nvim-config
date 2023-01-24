@@ -62,7 +62,7 @@ return packer.startup(function(use)
             require('jareth.statusline')
         end,
         -- some optional icons
-        requires = { 'kyazdani42/nvim-web-devicons' },
+        requires = { 'nvim-tree/nvim-web-devicons' },
     }
 
     -- cmp plugins
@@ -103,6 +103,13 @@ return packer.startup(function(use)
     -- Git integration
     use('tpope/vim-fugitive')
     use('airblade/vim-gitgutter')
+
+    -- Tmux integration
+    use 'christoomey/vim-tmux-navigator'
+
+    use 'mbbill/undotree'
+
+    use 'ThePrimeagen/harpoon'
 
     use 'ThePrimeagen/vim-be-good'
     -- Automatically set up your configuration after cloning packer.nvim
