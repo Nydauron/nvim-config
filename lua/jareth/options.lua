@@ -37,7 +37,7 @@ local options = {
     scrolloff = 8,                                  -- is one of my fav
     sidescrolloff = 8,
     guifont = "monospace:h17",                      -- the font used in graphical neovim applications
-    autochdir = true,                               -- automatically changes to the current working directory of the file
+    autochdir = false,                              -- automatically changes to the current working directory of the file
     colorcolumn = "100"                             -- visually shows vertical column at char 100
 }
 
