@@ -96,6 +96,9 @@ return packer.startup(function(use)
     use 'ray-x/go.nvim'
     use 'ray-x/guihua.lua' -- recommanded if need floating window support
 
+    -- MIPS
+    use 'cs233/vim-mips'
+
     use {
         'nvim-telescope/telescope.nvim', branch = '0.1.x',
         requires = { {'nvim-lua/plenary.nvim'} }
