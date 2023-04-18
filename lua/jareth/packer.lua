@@ -121,7 +121,7 @@ return packer.startup(function(use)
     use 'nvim-treesitter/nvim-treesitter-context'
     use 'mrjones2014/nvim-ts-rainbow'
 
-    use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+    use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
     use 'tpope/vim-commentary'
 
     -- Git integration
