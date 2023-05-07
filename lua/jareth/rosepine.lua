@@ -1,7 +1,7 @@
 require('rose-pine').setup({
     --- @usage 'main' | 'moon'
     dark_variant = 'main',
-    bold_vert_split = false,
+    bold_vert_split = true,
     dim_nc_background = false,
     disable_background = false,
     disable_float_background = false,
@@ -36,6 +36,7 @@ require('rose-pine').setup({
     -- Change specific vim highlight groups
     highlight_groups = {
         ColorColumn = { bg = 'surface' },
+        CursorLine = { bg = 'foam', blend = 10 },
         LspInlayHint = { bg = 'foam', fg = 'muted', blend = 10 }
     }
 })
