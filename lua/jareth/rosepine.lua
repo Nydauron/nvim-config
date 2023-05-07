@@ -28,14 +28,15 @@ require('rose-pine').setup({
             h4 = 'gold',
             h5 = 'pine',
             h6 = 'foam',
-        }
+        },
         -- or set all headings at once
         -- headings = 'subtle'
     },
 
     -- Change specific vim highlight groups
     highlight_groups = {
-        ColorColumn = { bg = 'surface' }
+        ColorColumn = { bg = 'surface' },
+        LspInlayHint = { bg = 'foam', fg = 'muted', blend = 10 }
     }
 })
 

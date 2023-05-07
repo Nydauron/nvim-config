@@ -108,6 +108,9 @@ return packer.startup(function(use)
     use 'ray-x/go.nvim'
     use 'ray-x/guihua.lua' -- recommanded if need floating window support
 
+    -- Rust
+    use("simrat39/rust-tools.nvim")
+
     -- MIPS
     use 'cs233/vim-mips'
 
