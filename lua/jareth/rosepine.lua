@@ -37,7 +37,7 @@ require('rose-pine').setup({
     highlight_groups = {
         ColorColumn = { bg = 'surface' },
         CursorLine = { bg = 'foam', blend = 10 },
-        LspInlayHint = { bg = 'foam', fg = 'muted', blend = 10 }
+        LspInlayHint = { bg = 'foam', fg = 'iris', blend = 25 }
     }
 })
 
