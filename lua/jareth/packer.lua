@@ -50,17 +50,17 @@ return packer.startup(function(use)
     use({
         'rose-pine/neovim',
         as = 'rose-pine',
-        config = function()
-            require('jareth.rosepine')
-        end
+        -- config = function()
+        --     require('jareth.rosepine')
+        -- end
     })
     use{
         'NTBBloodbath/galaxyline.nvim',
         branch = 'main',
         -- your statusline
-        config = function()
-            require('jareth.statusline')
-        end,
+        -- config = function()
+        --     require('jareth.statusline')
+        -- end,
         -- some optional icons
         requires = { 'nvim-tree/nvim-web-devicons' },
     }
@@ -73,24 +73,30 @@ return packer.startup(function(use)
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
 
-    -- cmp plugins
-    use "hrsh7th/nvim-cmp" -- The completion plugin
-    use "hrsh7th/cmp-buffer" -- buffer completions
-    use "hrsh7th/cmp-path" -- path completions
-    use "hrsh7th/cmp-cmdline" -- cmdline completions
-    use "saadparwaiz1/cmp_luasnip" -- snippet completions
-    use "hrsh7th/cmp-nvim-lsp"
-    use "hrsh7th/cmp-nvim-lua"
+    use {
+        'jose-elias-alvarez/null-ls.nvim', -- LSP diagnostics and code actions
+        requires = {
+            "nvim-lua/plenary.nvim",
 
-    -- snippets
-    use "L3MON4D3/LuaSnip" --snippet engine
-    use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+            -- cmp plugins
+            "hrsh7th/nvim-cmp", -- The completion plugin
+            "hrsh7th/cmp-buffer", -- buffer completions
+            "hrsh7th/cmp-path", -- path completions
+            "hrsh7th/cmp-cmdline", -- cmdline completions
+            "saadparwaiz1/cmp_luasnip", -- snippet completions
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lua",
 
-    -- LSP
-    use "neovim/nvim-lspconfig" -- enable LSP
-    use "williamboman/mason.nvim" -- simple to use language server installer
-    use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
-    use 'jose-elias-alvarez/null-ls.nvim' -- LSP diagnostics and code actions
+            -- snippets
+            "L3MON4D3/LuaSnip", --snippet engine
+            "rafamadriz/friendly-snippets", -- a bunch of snippets to use
+
+            -- LSP
+            "neovim/nvim-lspconfig", -- enable LSP
+            "williamboman/mason.nvim", -- simple to use language server installer
+            "williamboman/mason-lspconfig.nvim", -- simple to use language server installer
+        }
+    }
 
     use {
         "folke/trouble.nvim",
