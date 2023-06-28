@@ -1,1 +1,16 @@
-["tsserver","yamlls","bashls","lua_ls","html","cmake","dockerls","gopls","ansiblels","pyright","cssls","rust_analyzer","clangd","jsonls"]
+[
+    "yamlls",
+    "ansiblels",
+    "clangd",
+    "pyright",
+    "cssls",
+    "lua_ls",
+    "dockerls",
+    "bashls",
+    "gopls",
+    "rust_analyzer",
+    "tsserver",
+    "jsonls",
+    "html",
+    "cmake"
+]
