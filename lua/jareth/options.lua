@@ -6,8 +6,11 @@ local options = {
     completeopt = { "menuone", "noselect" },        -- mostly just for cmp
     conceallevel = 0,                               -- so that `` is visible in markdown files
     fileencoding = "utf-8",                         -- the encoding written to a file
-    hlsearch = false,                               -- prevents highlights all matches on previous search pattern
-    incsearch = true,                               -- highlights while searching current pattern
+    guicursor = "n-v-c:block,i-ci-ve:block,o:hor50,"-- blinking cursor on editing, normal mode is solid
+        .."a:blinkwait700-blinkoff400-blinkon250-Cursor/"
+        .."lCursor,n:blinkon0",
+    hlsearch = false,                               -- prevents highlights all matches on previous search pattern incsearch = true,                               -- highlights while searching current pattern
+    incsearch = true,                               -- allow for search results to show as you type
     ignorecase = true,                              -- ignore case in search patterns
     mouse = "a",                                    -- allow the mouse to be used in neovim
     pumheight = 10,                                 -- pop up menu height
