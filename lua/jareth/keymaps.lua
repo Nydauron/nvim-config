@@ -56,8 +56,8 @@ keymap("v", ">", ">gv", opts)
 -- Move text up and down
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
--- keymap("v", "<A-j>", ":m .+1<CR>==", opts)
--- keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+keymap("x", "J", ":m '>+1<CR>gv=gv", opts)
+keymap("x", "K", ":m '<-2<CR>gv=gv", opts)
 
 -- Prevents highlighted region from overriding paste register
 vim.keymap.set("x", "<leader>p", [["_dP]])
@@ -68,13 +68,6 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- Delete to void reegister instead of paste register
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
-
--- Visual Block --
--- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Terminal --
 -- Better terminal navigation
