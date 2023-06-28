@@ -87,15 +87,6 @@ local sync_server_list = function ()
             vim.notify("LSP server list has been updated successfully")
         end)
     end)
-
-    -- vim.api.nvim_buf_attach(buf_num, false, {
-    --     on_detach = function (detach, handle)
-    --         vim.notify("detached")
-    --         vim.cmd("Git commit --amend --no-edit")
-    --         vim.schedule(function ()
-    --         end)
-    --     end
-    -- })
 end
 
 for k, _ in pairs(all_servers_installed) do
