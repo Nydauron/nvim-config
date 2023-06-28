@@ -104,8 +104,10 @@ for k, _ in pairs(all_servers_installed) do
     end
     print("Some servers were not installed by the given config (e.g. installed thru Mason interface)")
     recursive_prompt("Would you like to sync and commit this updated server list? (Y/n) ", sync_server_list)
+    goto end_server_list_check
     ::server_check_continue::
 end
+::end_server_list_check::
 
 for server, _ in pairs(all_servers_installed) do
     opts = {
