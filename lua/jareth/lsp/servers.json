@@ -1,1 +1,1 @@
-["pyright","cssls","rust_analyzer","clangd","jsonls","tsserver","yamlls","bashls","gopls","cmake","html","lua_ls"]
+["lua_ls","ansiblels","cmake","pyright","cssls","rust_analyzer","clangd","jsonls","tsserver","yamlls","bashls","html","gopls"]
