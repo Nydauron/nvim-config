@@ -69,6 +69,10 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 -- Delete to void reegister instead of paste register
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
+-- I hate q. I always accidentally press it all the time so byebye it goes
+vim.keymap.set({"n", "v"}, "Q", "<nop>")
+vim.keymap.set({"n", "v"}, "q", "<nop>")
+
 -- Terminal --
 -- Better terminal navigation
 keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
