@@ -1,10 +1,14 @@
+JSON = require("JSON")
 local cwd = vim.fn.stdpath("config")
+local config_worktree = vim.fs.normalize("~")
+local config_git_dir = config_worktree .. "/.cfg"
 local server_lua_file = cwd .. "/lua/jareth/lsp/servers.json"
 local status_ok, servers = pcall(function ()
     local file = assert(io.open(server_lua_file, "r"))
-    local server_list_str = file:read()
+    local server_list_str = file:read("a")
     file:close()
-    return vim.json.decode(server_list_str, { array = true })
+    local decoded_json = JSON:decode(server_list_str)
+    return type(decoded_json) == "table" and decoded_json or {}
 end)
 if not status_ok then
     servers = {}
@@ -55,7 +59,6 @@ recursive_prompt = function (prompt, callback)
             callback()
             return
         elseif string.lower(response) == "n" then
-            print("")
             print("Oke :)")
             return
         end
@@ -70,16 +73,17 @@ local sync_server_list = function ()
         table.insert(new_server_list, k)
     end
     local file = assert(io.open(server_lua_file, "w"))
-    file:write(vim.json.encode(new_server_list))
+    local json_encoded = JSON:encode(new_server_list, nil, {pretty = true, indent = "    ", array_newline = true})
+    file:write(json_encoded)
     local status_ok  = file:close()
 
     if not status_ok then
         print(("An issue occurred when closing the file. Please see if the changes were written to %q"):format(server_lua_file))
     end
     vim.ui.input({ prompt = "Please enter a commit message: "}, function (msg)
-        vim.cmd(("Git --work-tree %q --git-dir %q commit -m %q -- %q"):format(cwd, cwd .. "/.git", msg, server_lua_file))
+        vim.cmd(("Git --work-tree %q --git-dir %q commit -m %q -- %q"):format(config_worktree, config_git_dir, msg, server_lua_file))
         recursive_prompt("Ready to push? (Y/n) ", function ()
-            vim.cmd(("Git --work-tree %q --git-dir %q push origin master"):format(cwd, cwd .. "/.git"))
+            vim.cmd(("Git --work-tree %q --git-dir %q push origin master"):format(config_worktree, config_git_dir))
             vim.notify("LSP server list has been updated successfully")
         end)
     end)
