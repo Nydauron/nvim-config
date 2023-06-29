@@ -87,9 +87,9 @@ return packer.startup(function(use)
     use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
 
     -- LSP
-    use "neovim/nvim-lspconfig" -- enable LSP
     use "williamboman/mason.nvim" -- simple to use language server installer
     use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
+    use "neovim/nvim-lspconfig" -- enable LSP
     use "jay-babu/mason-null-ls.nvim" -- bridges some missed gaps between Mason and null-ls
     use { "jose-elias-alvarez/null-ls.nvim", -- LSP diagnostics and code actions
         requires = {
