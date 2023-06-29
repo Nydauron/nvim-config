@@ -40,73 +40,47 @@ require("mason-tool-installer").setup({
     run_on_start = true
 })
 
--- local registry = require("mason-registry")
+local registry = require("mason-registry")
 
--- registry:on(
---     "package:uninstall:success",
---     vim.schedule_wrap(function (pkg)
---         vim.notify(vim.inspect(pkg))
---         local file = assert(io.open(server_file, "w+"))
---         local raw_server_list = file:read("a")
---         local server_json = JSON:decode(raw_server_list)
---         if vim.tbl_contains(pkg.spec.categories, "LSP") then
---             -- place in LSP table
---             vim.notify("LSP detected")
---             if vim.tbl_contains(server_json.lsps, pkg.name) then
---                 table.insert(server_json.lsps, pkg.name)
---                 local new_lsp_list = {}
---                 for _, v in server_json.lsps do
---                     if v ~= pkg.name then
---                         new_lsp_list.insert(v)
---                     end
---                 end
---                 server_json.lsps = new_lsp_list
---             end
---         else
---             -- place in null-ls table
---             vim.notify("null-ls detected")
---             if vim.tbl_contains(server_json.null_ls, pkg.name) then
---                 table.insert(server_json.null_ls, pkg.name)
---                 local new_null_ls_list = {}
---                 for _, v in server_json.null_ls do
---                     if v ~= pkg.name then
---                         new_null_ls_list.insert(v)
---                     end
---                 end
---                 server_json.null_ls = new_null_ls_list
---             end
---         end
---         file:seek("set")
---         file:write(JSON:encode(server_json, nil, { pretty = true, indent = "    ", array_newline = true }))
---         file:close()
---     end)
--- )
+registry:on(
+    "package:uninstall:success",
+    vim.schedule_wrap(function (pkg)
+        local file = assert(io.open(server_file, "r"))
+        local raw_server_list = file:read("a")
+        local server_json = JSON:decode(raw_server_list)
+        if vim.tbl_contains(server_json, pkg.name) then
+            local new_lsp_list = {}
+            for _, v in ipairs(server_json) do
+                if v ~= pkg.name then
+                    table.insert(new_lsp_list, v)
+                end
+            end
+            server_json = new_lsp_list
+        end
+        file:close()
+        file = assert(io.open(server_file, "w"))
+        file:write(JSON:encode(server_json, nil, { pretty = true, indent = "    ", array_newline = true }))
+        vim.notify(("Removed %s from servers.json"):format(pkg.name))
+        file:close()
+    end)
+)
 
--- registry:on(
---     "package:install:success",
---     vim.schedule_wrap(function (pkg, handler)
---         vim.notify(vim.inspect(pkg))
---         local file = assert(io.open(server_file, "w+"))
---         local raw_server_list = file:read("a")
---         local server_json = JSON:decode(raw_server_list)
---         if vim.tbl_contains(pkg.spec.categories, "LSP") then
---             -- place in LSP table
---             vim.notify("LSP detected")
---             if vim.tbl_contains(server_json.lsps, pkg.name) then
---                 table.insert(server_json.lsps, pkg.name)
---             end
---         else
---             -- place in null-ls table
---             vim.notify("null-ls detected")
---             if vim.tbl_contains(server_json.null_ls, pkg.name) then
---                 table.insert(server_json.null_ls, pkg.name)
---             end
---         end
---         file:seek("set")
---         file:write(JSON:encode(server_json, nil, { pretty = true, indent = "    ", array_newline = true }))
---         file:close()
---     end)
--- )
+registry:on(
+    "package:install:success",
+    vim.schedule_wrap(function (pkg, handler)
+        local file = assert(io.open(server_file, "r"))
+        local raw_server_list = file:read("a")
+        local server_json = JSON:decode(raw_server_list)
+        if not vim.tbl_contains(server_json, pkg.name) then
+            table.insert(server_json, pkg.name)
+        end
+        file:close()
+        file = assert(io.open(server_file, "w"))
+        file:write(JSON:encode(server_json, nil, { pretty = true, indent = "    ", array_newline = true }))
+        vim.notify(("Added %s to servers.json"):format(pkg.name))
+        file:close()
+    end)
+)
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
