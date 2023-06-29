@@ -13,15 +13,54 @@ end
 
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
+local IGNORED_FT = {
+    "gitcommit",
+    "startify",
+    "dashboard",
+    "alpha",
+}
+
+local function open_nvim_tree(data)
+    -- buffer is a directory
+    local directory = vim.fn.isdirectory(data.file) == 1
+
+    -- skip ignored filetypes
+    local filetype = vim.bo[data.buf].ft
+    if vim.tbl_contains(IGNORED_FT, filetype) then
+        return
+    end
+
+    if directory then
+        -- create a new, empty buffer
+        vim.cmd.enew()
+
+        -- wipe the directory buffer
+        vim.cmd.bw(data.buf)
+
+        -- change to the directory
+        vim.cmd.cd(data.file)
+
+        require("nvim-tree.api").tree.open()
+    else
+        -- buffer is a real file on the disk
+        local real_file = vim.fn.filereadable(data.file) == 1
+
+        -- buffer is a [No Name]
+        local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+
+        if not real_file and not no_name then
+            return
+        end
+        require("nvim-tree.api").tree.toggle({ focus = false })
+
+    end
+end
+
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+
 nvim_tree.setup {
     disable_netrw = true,
     hijack_netrw = true,
-    open_on_setup = false,
-    ignore_ft_on_setup = {
-        "startify",
-        "dashboard",
-        "alpha",
-    },
     open_on_tab = false,
     hijack_cursor = false,
     update_cwd = true,
