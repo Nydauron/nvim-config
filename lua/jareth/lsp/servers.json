@@ -1,16 +1,24 @@
-[
-    "yamlls",
-    "ansiblels",
-    "clangd",
-    "pyright",
-    "cssls",
-    "lua_ls",
-    "dockerls",
-    "bashls",
-    "gopls",
-    "rust_analyzer",
-    "tsserver",
-    "jsonls",
-    "html",
-    "cmake"
-]
+{
+    "lsps": [
+        "jsonls",
+        "bashls",
+        "lua_ls",
+        "gopls",
+        "tsserver",
+        "dockerls",
+        "cmake",
+        "pyright",
+        "html",
+        "ansiblels",
+        "clangd",
+        "yamlls",
+        "cssls",
+        "rust_analyzer"
+    ],
+    "null_ls": [
+        "black",
+        "prettier",
+        "stylua",
+        "ansible-lint"
+    ]
+}
