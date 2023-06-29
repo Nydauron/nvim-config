@@ -96,6 +96,7 @@ return packer.startup(function(use)
             "nvim-lua/plenary.nvim",
         }
     }
+    use "WhoIsSethDaniel/mason-tool-installer.nvim"
 
     use {
         "folke/trouble.nvim",

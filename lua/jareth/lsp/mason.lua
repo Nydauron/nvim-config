@@ -8,10 +8,10 @@ local status_ok, servers = pcall(function ()
     local server_list_str = file:read("a")
     file:close()
     local decoded_json = JSON:decode(server_list_str)
-    return type(decoded_json) == "table" and decoded_json or {lsps = {}, null_ls = {}}
+    return type(decoded_json) == "table" and decoded_json or {}
 end)
-if not status_ok or vim.tbl_isempty(servers) then
-    servers = {lsps = {}, null_ls = {}}
+if not status_ok then
+    servers = {}
 end
 
 local settings = {
@@ -29,12 +29,15 @@ local settings = {
 
 require("mason").setup(settings)
 require("mason-null-ls").setup({
-    ensure_installed = servers.null_ls,
     automatic_installation = false,
 })
 require("mason-lspconfig").setup({
-    ensure_installed = server_file.lsps,
-    automatic_installation = true,
+    automatic_installation = false,
+})
+require("mason-tool-installer").setup({
+    ensure_installed = servers,
+    auto_update = false,
+    run_on_start = true
 })
 
 -- local registry = require("mason-registry")
@@ -112,16 +115,16 @@ end
 
 local opts = {}
 
-local all_servers_installed = {lsps = {}, null_ls = {}}
-local existing_servers = {lsps = {}, null_ls = {}}
+local all_servers_installed = {}
+local existing_servers = {}
 
-for _, v in pairs(servers.lsps) do
-    all_servers_installed.lsps[v] = true
-    existing_servers.lsps[v] = true
+for _, v in pairs(servers) do
+    all_servers_installed[v] = true
+    existing_servers[v] = true
 end
 
-for _, v in pairs(require("mason-lspconfig").get_installed_servers()) do
-    all_servers_installed.lsps[v] = true
+for _, v in pairs(require("mason-registry").get_installed_package_names()) do
+    all_servers_installed[v] = true
 end
 
 local recursive_prompt
@@ -140,9 +143,9 @@ recursive_prompt = function (prompt, callback)
 end
 
 local sync_server_list = function ()
-    local new_server_list = {lsps = {}, null_ls = {}}
-    for k, _ in pairs(all_servers_installed.lsps) do
-        table.insert(new_server_list.lsps, k)
+    local new_server_list = {}
+    for k, _ in pairs(all_servers_installed) do
+        table.insert(new_server_list, k)
     end
     local file = assert(io.open(server_file, "w"))
     local json_encoded = JSON:encode(new_server_list, nil, {pretty = true, indent = "    ", array_newline = true})
@@ -161,8 +164,8 @@ local sync_server_list = function ()
     end)
 end
 
-for k, _ in pairs(all_servers_installed.lsps) do
-    if existing_servers.lsps[k] == true then
+for k, _ in pairs(all_servers_installed) do
+    if existing_servers[k] == true then
         goto server_check_continue
     end
     print("Some servers were not installed by the given config (e.g. installed thru Mason interface)")
@@ -172,7 +175,15 @@ for k, _ in pairs(all_servers_installed.lsps) do
 end
 ::end_server_list_check::
 
-for server, _ in pairs(all_servers_installed.lsps) do
+local server_mappings = require("mason-lspconfig").get_mappings()
+
+for server, _ in pairs(all_servers_installed) do
+    local status_ok, server_package = pcall(require("mason-registry").get_package, server)
+    if not status_ok or not vim.tbl_contains(server_package.spec.categories, "LSP") then
+        goto continue_configure_lsps
+    end
+
+    server = server_mappings.mason_to_lspconfig[server]
     opts = {
         on_attach = require("jareth.lsp.handlers").on_attach,
         capabilities = require("jareth.lsp.handlers").capabilities,
@@ -186,4 +197,5 @@ for server, _ in pairs(all_servers_installed.lsps) do
     end
 
     lspconfig[server].setup(opts)
+    ::continue_configure_lsps::
 end

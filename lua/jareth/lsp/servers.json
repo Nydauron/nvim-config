@@ -1,24 +1,20 @@
-{
-    "lsps": [
-        "jsonls",
-        "bashls",
-        "lua_ls",
-        "gopls",
-        "tsserver",
-        "dockerls",
-        "cmake",
-        "pyright",
-        "html",
-        "ansiblels",
-        "clangd",
-        "yamlls",
-        "cssls",
-        "rust_analyzer"
-    ],
-    "null_ls": [
-        "black",
-        "prettier",
-        "stylua",
-        "ansible-lint"
-    ]
-}
+[
+    "prettier",
+    "lua-language-server",
+    "black",
+    "typescript-language-server",
+    "clangd",
+    "cmake-language-server",
+    "pyright",
+    "ansible-language-server",
+    "css-lsp",
+    "json-lsp",
+    "rust-analyzer",
+    "ansible-lint",
+    "yaml-language-server",
+    "html-lsp",
+    "bash-language-server",
+    "gopls",
+    "stylua",
+    "dockerfile-language-server"
+]
