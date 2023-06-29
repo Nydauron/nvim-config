@@ -73,28 +73,27 @@ return packer.startup(function(use)
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
 
-    use {
-        'jose-elias-alvarez/null-ls.nvim', -- LSP diagnostics and code actions
+    -- cmp plugins
+    use "hrsh7th/nvim-cmp" -- The completion plugin
+    use "hrsh7th/cmp-buffer" -- buffer completions
+    use "hrsh7th/cmp-path" -- path completions
+    use "hrsh7th/cmp-cmdline" -- cmdline completions
+    use "saadparwaiz1/cmp_luasnip" -- snippet completions
+    use "hrsh7th/cmp-nvim-lsp"
+    use "hrsh7th/cmp-nvim-lua"
+
+    -- snippets
+    use "L3MON4D3/LuaSnip" --snippet engine
+    use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+
+    -- LSP
+    use "neovim/nvim-lspconfig" -- enable LSP
+    use "williamboman/mason.nvim" -- simple to use language server installer
+    use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
+    use "jay-babu/mason-null-ls.nvim" -- bridges some missed gaps between Mason and null-ls
+    use { "jose-elias-alvarez/null-ls.nvim", -- LSP diagnostics and code actions
         requires = {
             "nvim-lua/plenary.nvim",
-
-            -- cmp plugins
-            "hrsh7th/nvim-cmp", -- The completion plugin
-            "hrsh7th/cmp-buffer", -- buffer completions
-            "hrsh7th/cmp-path", -- path completions
-            "hrsh7th/cmp-cmdline", -- cmdline completions
-            "saadparwaiz1/cmp_luasnip", -- snippet completions
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-nvim-lua",
-
-            -- snippets
-            "L3MON4D3/LuaSnip", --snippet engine
-            "rafamadriz/friendly-snippets", -- a bunch of snippets to use
-
-            -- LSP
-            "neovim/nvim-lspconfig", -- enable LSP
-            "williamboman/mason.nvim", -- simple to use language server installer
-            "williamboman/mason-lspconfig.nvim", -- simple to use language server installer
         }
     }
 

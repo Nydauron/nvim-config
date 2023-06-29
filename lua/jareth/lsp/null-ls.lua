@@ -17,3 +17,6 @@ null_ls.setup({
         -- diagnostics.flake8
     },
 })
+require("mason-null-ls").setup({
+    automatic_installation = true,
+})
