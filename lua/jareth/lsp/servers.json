@@ -17,5 +17,6 @@
     "ansible-language-server",
     "lua-language-server",
     "typescript-language-server",
-    "black"
+    "black",
+    "astro-language-server"
 ]
