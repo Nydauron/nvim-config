@@ -54,6 +54,7 @@ return packer.startup(function(use)
         --     require('jareth.rosepine')
         -- end
     })
+    use "folke/tokyonight.nvim"
     use{
         'NTBBloodbath/galaxyline.nvim',
         branch = 'main',
