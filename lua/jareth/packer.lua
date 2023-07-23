@@ -133,6 +133,9 @@ return packer.startup(function(use)
     -- Tmux integration
     use 'christoomey/vim-tmux-navigator'
 
+    -- LaTeX
+    use 'lervag/vimtex'
+
     use 'mbbill/undotree'
 
     use 'ThePrimeagen/harpoon'
