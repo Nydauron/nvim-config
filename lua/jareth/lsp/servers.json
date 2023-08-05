@@ -19,5 +19,8 @@
     "typescript-language-server",
     "black",
     "astro-language-server",
-    "tectonic"
+    "tailwindcss-language-server",
+    "cpptools",
+    "tectonic",
+    "csharp-language-server"
 ]
