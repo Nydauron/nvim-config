@@ -71,6 +71,14 @@ local function lsp_keymaps(bufnr)
     keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 end
 
+local function version_at_least(minimum_version, actual_version)
+    return minimum_version.major < actual_version.major or
+        minimum_version.major == actual_version.major and (
+        minimum_version.minor < actual_version.minor or
+        minimum_version.minor == actual_version.minor and (
+        minimum_version.patch <= actual_version.patch))
+end
+
 M.on_attach = function(client, bufnr)
     if client.name == "tsserver" then
         client.server_capabilities.documentFormattingProvider = false
@@ -81,11 +89,20 @@ M.on_attach = function(client, bufnr)
     end
 
     lsp_keymaps(bufnr)
-    local status_ok, illuminate = pcall(require, "illuminate")
-    if not status_ok then
-        return
+
+    local minimum_version = {
+        major = 0,
+        minor = 10,
+        patch = 0,
+    }
+    if version_at_least(minimum_version, vim.version()) then
+        vim.lsp.inlay_hint(bufnr, true)
     end
-    illuminate.on_attach(client)
+
+    local status_ok, illuminate = pcall(require, "illuminate")
+    if status_ok then
+        illuminate.on_attach(client)
+    end
 end
 
 return M

@@ -108,7 +108,7 @@ return packer.startup(function(use)
     use 'ray-x/guihua.lua' -- recommanded if need floating window support
 
     -- Rust
-    use("simrat39/rust-tools.nvim")
+    use { "Ciel-MC/rust-tools.nvim", branch = "inline-inlay-hints" }
 
     -- MIPS
     use 'cs233/vim-mips'
