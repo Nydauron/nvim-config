@@ -56,7 +56,7 @@ return packer.startup(function(use)
     })
     use "folke/tokyonight.nvim"
     use{
-        'NTBBloodbath/galaxyline.nvim',
+        'nvimdev/galaxyline.nvim',
         branch = 'main',
         -- your statusline
         -- config = function()
