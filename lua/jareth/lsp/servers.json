@@ -22,5 +22,6 @@
     "tailwindcss-language-server",
     "cpptools",
     "tectonic",
-    "csharp-language-server"
+    "csharp-language-server",
+    "editorconfig-checker"
 ]
