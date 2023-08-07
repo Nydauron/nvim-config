@@ -138,6 +138,8 @@ return packer.startup(function(use)
 
     use 'mbbill/undotree'
 
+    use 'editorconfig/editorconfig-vim'
+
     use 'ThePrimeagen/harpoon'
 
     use 'ThePrimeagen/vim-be-good'
