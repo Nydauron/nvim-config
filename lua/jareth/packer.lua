@@ -142,6 +142,11 @@ return packer.startup(function(use)
 
     use 'ThePrimeagen/harpoon'
 
+    use  {
+        'j-hui/fidget.nvim',
+        tag = 'legacy'
+    }
+
     use 'ThePrimeagen/vim-be-good'
 
     use_rocks 'json-lua'
