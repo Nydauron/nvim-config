@@ -1,7 +1,7 @@
 JSON = require("JSON")
 local cwd = vim.fn.stdpath("config")
-local config_worktree = vim.fs.normalize("~")
-local config_git_dir = config_worktree .. "/.cfg"
+local config_worktree = cwd
+local config_git_dir = config_worktree .. "/.git"
 local server_file = cwd .. "/lua/jareth/lsp/servers.json"
 local status_ok, servers = pcall(function ()
     local file = assert(io.open(server_file, "r"))
