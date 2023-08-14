@@ -95,7 +95,8 @@ M.on_attach = function(client, bufnr)
         minor = 10,
         patch = 0,
     }
-    if version_at_least(minimum_version, vim.version()) then
+    if version_at_least(minimum_version, vim.version()) and
+             client.server_capabilities.inlayHintProvider then
         vim.lsp.inlay_hint(bufnr, true)
     end
 
