@@ -85,6 +85,12 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Telescope --
 keymap("n", "<leader>f", "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown())<cr>", opts)
+vim.keymap.set("n", "<leader>F", function()
+    local opts = require('telescope.themes').get_dropdown()
+    opts['no_ignore'] = true
+    opts['hidden'] = true
+    require('telescope.builtin').find_files(opts)
+end, opts)
 keymap("n", "<leader>g", "<cmd>Telescope live_grep<cr>", opts)
 
 -- QoL Keymappings from ThePrimeagen --
