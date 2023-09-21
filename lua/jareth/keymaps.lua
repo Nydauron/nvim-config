@@ -73,6 +73,9 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 vim.keymap.set({"n", "v"}, "Q", "<nop>")
 vim.keymap.set({"n", "v"}, "q", "<nop>")
 
+-- Spell check toggle
+vim.keymap.set("n", "sc", "<cmd>setlocal spell! spell?<CR>", opts)
+
 -- Terminal --
 -- Better terminal navigation
 keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
