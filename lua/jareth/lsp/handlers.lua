@@ -1,3 +1,5 @@
+require("jareth.utils.version_at_least")
+
 local M = {}
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -71,14 +73,6 @@ local function lsp_keymaps(bufnr)
     keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 end
 
-local function version_at_least(minimum_version, actual_version)
-    return minimum_version.major < actual_version.major or
-        minimum_version.major == actual_version.major and (
-        minimum_version.minor < actual_version.minor or
-        minimum_version.minor == actual_version.minor and (
-        minimum_version.patch <= actual_version.patch))
-end
-
 M.on_attach = function(client, bufnr)
     if client.name == "tsserver" then
         client.server_capabilities.documentFormattingProvider = false
@@ -95,7 +89,7 @@ M.on_attach = function(client, bufnr)
         minor = 10,
         patch = 0,
     }
-    if version_at_least(minimum_version, vim.version()) and
+    if VersionAtLeast(minimum_version, vim.version()) and
              client.server_capabilities.inlayHintProvider then
         vim.lsp.inlay_hint(bufnr, true)
     end

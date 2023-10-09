@@ -1,3 +1,5 @@
+require("jareth.utils.version_at_least")
+
 -- Access colors via galaxyline's recommended naming
 -- E.g. `highlights.blue`, `highlights.yellow`
 local status_ok, highlights = pcall(require, 'rose-pine.plugins.galaxyline')
@@ -41,8 +43,17 @@ local buffer_not_empty = function ()
 end
 
 local is_git_repo = function ()
-    local path = vim.uv.cwd() .. "/.git"
-    local ok, err = vim.uv.fs_stat(path)
+    local uv = vim.uv
+    local minimum_version = {
+        major = 0,
+        minor = 10,
+        patch = 0,
+    }
+    if not VersionAtLeast(minimum_version, vim.version()) or uv == nil then
+        uv = vim.loop
+    end
+    local path = uv.cwd() .. "/.git"
+    local ok, err = uv.fs_stat(path)
     -- if not ok then
     --     print(err)
     -- end
