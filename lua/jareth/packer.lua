@@ -133,6 +133,15 @@ return packer.startup(function(use)
     -- Tmux integration
     use 'christoomey/vim-tmux-navigator'
 
+    -- Remote file access over SSH
+    use {
+        'chipsenkbeil/distant.nvim',
+        branch = 'v0.3',
+        config = function()
+            require('distant'):setup()
+        end
+    }
+
     -- LaTeX
     use 'lervag/vimtex'
 
