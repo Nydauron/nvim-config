@@ -122,7 +122,12 @@ return packer.startup(function(use)
     use 'mrjones2014/nvim-ts-rainbow'
 
     use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
-    use 'tpope/vim-commentary'
+    use {
+        'numtostr/comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
 
     -- Git integration
     use('tpope/vim-fugitive')
