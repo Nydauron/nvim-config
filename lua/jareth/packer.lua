@@ -80,11 +80,11 @@ return packer.startup(function(use)
     use "williamboman/mason.nvim" -- simple to use language server installer
     use "williamboman/mason-lspconfig.nvim" -- simple to use language server installer
     use "neovim/nvim-lspconfig" -- enable LSP
-    use "jay-babu/mason-null-ls.nvim" -- bridges some missed gaps between Mason and null-ls
-    use { "jose-elias-alvarez/null-ls.nvim", -- LSP diagnostics and code actions
+    use {
+        "nvimdev/guard.nvim", -- Linters and foramatters (replaces null-ls)
         requires = {
-            "nvim-lua/plenary.nvim",
-        }
+            "nvimdev/guard-collection",
+        },
     }
     use "WhoIsSethDaniel/mason-tool-installer.nvim"
     use {
