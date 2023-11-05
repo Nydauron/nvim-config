@@ -23,7 +23,7 @@ require('mason-sync').setup({
     file = "lua/jareth/lsp/servers.json",
     sync_on_mason_change = {
         on_install = true,
-        on_uninstall = false,
+        on_uninstall = true,
     }
 })
 
