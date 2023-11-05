@@ -87,6 +87,10 @@ return packer.startup(function(use)
         }
     }
     use "WhoIsSethDaniel/mason-tool-installer.nvim"
+    use {
+        'Nydauron/mason-sync.nvim',
+        requires = {'nvim-lua/plenary.nvim'},
+    }
 
     use {
         "folke/trouble.nvim",
@@ -161,7 +165,6 @@ return packer.startup(function(use)
 
     use 'ThePrimeagen/vim-be-good'
 
-    use_rocks 'json-lua'
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then
