@@ -4,5 +4,5 @@ if not status_ok then
 end
 
 require("jareth.lsp.mason")
+require("jareth.lsp.guard")
 require("jareth.lsp.handlers").setup()
-require("jareth.lsp.null-ls")
