@@ -12,5 +12,8 @@ return {
                 },
             },
         },
+        telemtry = {
+            enable = false
+        },
     },
 }
