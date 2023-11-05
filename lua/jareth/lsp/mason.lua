@@ -1,18 +1,8 @@
-JSON = require("JSON")
+local JSON_ok = false
 local cwd = vim.fn.stdpath("config")
 local config_worktree = cwd
 local config_git_dir = config_worktree .. "/.git"
 local server_file = cwd .. "/lua/jareth/lsp/servers.json"
-local status_ok, servers = pcall(function ()
-    local file = assert(io.open(server_file, "r"))
-    local server_list_str = file:read("a")
-    file:close()
-    local decoded_json = JSON:decode(server_list_str)
-    return type(decoded_json) == "table" and decoded_json or {}
-end)
-if not status_ok then
-    servers = {}
-end
 
 local settings = {
     ui = {
@@ -28,59 +18,29 @@ local settings = {
 }
 
 require("mason").setup(settings)
-require("mason-null-ls").setup({
-    automatic_installation = false,
+
+require('mason-sync').setup({
+    file = "lua/jareth/lsp/servers.json",
+    sync_on_mason_change = {
+        on_install = true,
+        on_uninstall = false,
+    }
 })
+
+-- require("mason-null-ls").setup({
+--     automatic_installation = false,
+-- })
+
 require("mason-lspconfig").setup({
     automatic_installation = false,
 })
+
 require("mason-tool-installer").setup({
-    ensure_installed = servers,
-    auto_update = false,
+    ensure_installed = require("mason-sync").ensure_installed_servers(),
+    auto_update = true,
     run_on_start = true
 })
 
-local registry = require("mason-registry")
-
-registry:on(
-    "package:uninstall:success",
-    vim.schedule_wrap(function (pkg)
-        local file = assert(io.open(server_file, "r"))
-        local raw_server_list = file:read("a")
-        local server_json = JSON:decode(raw_server_list)
-        if vim.tbl_contains(server_json, pkg.name) then
-            local new_lsp_list = {}
-            for _, v in ipairs(server_json) do
-                if v ~= pkg.name then
-                    table.insert(new_lsp_list, v)
-                end
-            end
-            server_json = new_lsp_list
-        end
-        file:close()
-        file = assert(io.open(server_file, "w"))
-        file:write(JSON:encode(server_json, nil, { pretty = true, indent = "    ", array_newline = true }))
-        vim.notify(("Removed %s from servers.json"):format(pkg.name))
-        file:close()
-    end)
-)
-
-registry:on(
-    "package:install:success",
-    vim.schedule_wrap(function (pkg, handler)
-        local file = assert(io.open(server_file, "r"))
-        local raw_server_list = file:read("a")
-        local server_json = JSON:decode(raw_server_list)
-        if not vim.tbl_contains(server_json, pkg.name) then
-            table.insert(server_json, pkg.name)
-        end
-        file:close()
-        file = assert(io.open(server_file, "w"))
-        file:write(JSON:encode(server_json, nil, { pretty = true, indent = "    ", array_newline = true }))
-        vim.notify(("Added %s to servers.json"):format(pkg.name))
-        file:close()
-    end)
-)
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
@@ -92,7 +52,7 @@ local opts = {}
 local all_servers_installed = {}
 local existing_servers = {}
 
-for _, v in pairs(servers) do
+for _, v in pairs(require("mason-sync").ensure_installed_servers()) do
     all_servers_installed[v] = true
     existing_servers[v] = true
 end
