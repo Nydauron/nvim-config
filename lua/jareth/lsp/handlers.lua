@@ -27,7 +27,7 @@ M.setup = function()
     local config = {
         virtual_text = true, -- disable virtual text
         signs = {
-            active = signs, -- show signs
+            active = signs,  -- show signs
         },
         update_in_insert = true,
         underline = true,
@@ -91,7 +91,7 @@ M.on_attach = function(client, bufnr)
         patch = 0,
     }
     if VersionAtLeast(minimum_version, vim.version()) and
-             client.server_capabilities.inlayHintProvider then
+        client.server_capabilities.inlayHintProvider then
         vim.lsp.inlay_hint(bufnr, true)
     end
 

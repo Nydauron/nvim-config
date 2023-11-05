@@ -62,7 +62,7 @@ for _, v in pairs(require("mason-registry").get_installed_package_names()) do
 end
 
 local recursive_prompt
-recursive_prompt = function (prompt, callback)
+recursive_prompt = function(prompt, callback)
     vim.ui.input({ prompt = prompt }, function(response)
         if string.lower(response) == "y" or response == "" then
             callback()
@@ -76,22 +76,24 @@ recursive_prompt = function (prompt, callback)
     end)
 end
 
-local sync_server_list = function ()
+local sync_server_list = function()
     local new_server_list = {}
     for k, _ in pairs(all_servers_installed) do
         table.insert(new_server_list, k)
     end
     local file = assert(io.open(server_file, "w"))
-    local json_encoded = JSON:encode(new_server_list, nil, {pretty = true, indent = "    ", array_newline = true})
+    local json_encoded = JSON:encode(new_server_list, nil, { pretty = true, indent = "    ", array_newline = true })
     file:write(json_encoded)
-    local status_ok  = file:close()
+    local status_ok = file:close()
 
     if not status_ok then
-        print(("An issue occurred when closing the file. Please see if the changes were written to %q"):format(server_file))
+        print(("An issue occurred when closing the file. Please see if the changes were written to %q"):format(
+            server_file))
     end
-    vim.ui.input({ prompt = "Please enter a commit message: "}, function (msg)
-        vim.cmd(("Git --work-tree %q --git-dir %q commit -m %q -- %q"):format(config_worktree, config_git_dir, msg, server_file))
-        recursive_prompt("Ready to push? (Y/n) ", function ()
+    vim.ui.input({ prompt = "Please enter a commit message: " }, function(msg)
+        vim.cmd(("Git --work-tree %q --git-dir %q commit -m %q -- %q"):format(config_worktree, config_git_dir, msg,
+            server_file))
+        recursive_prompt("Ready to push? (Y/n) ", function()
             vim.cmd(("Git --work-tree %q --git-dir %q push origin master"):format(config_worktree, config_git_dir))
             vim.notify("LSP server list has been updated successfully")
         end)
