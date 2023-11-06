@@ -50,7 +50,7 @@ local opts = {}
 local all_servers_installed = {}
 local existing_servers = {}
 
-for _, v in pairs(require("mason-sync").ensure_installed_servers()) do
+for _, v in pairs(require("mason-sync").get_serverlist()) do
     all_servers_installed[v] = true
     existing_servers[v] = true
 end
