@@ -12,6 +12,7 @@ ft("c,cpp"):fmt("clang-format")
 -- })
 ft("python"):fmt("black")
 ft("typescript,javascript,typescriptreact"):fmt("prettier")
+ft("rust"):fmt("rustfmt")
 
 require("guard").setup({
     fmt_on_save = true,
