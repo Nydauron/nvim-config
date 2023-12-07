@@ -98,6 +98,7 @@ M.on_attach = function(client, bufnr)
     }
     if
         VersionAtLeast(minimum_version, vim.version())
+        and client.name ~= "tsserver" -- current problems with inlay hints :(
         and client.server_capabilities.inlayHintProvider
     then
         vim.lsp.inlay_hint.enable(bufnr, true)
