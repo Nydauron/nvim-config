@@ -4,12 +4,11 @@ if not ft_ok then
 end
 
 ft("lua"):fmt("lsp"):append("stylua"):lint("selene")
-ft("c,cpp"):fmt("clang-format")
--- ft("c,cpp"):fmt({
--- 	cmd = "clang-format",
--- 	args = { '--style="{BasedOnStyle: llvm, IndentWidth: 4}"' },
--- 	stdin = false,
--- })
+ft("c,cpp"):fmt({
+    cmd = "clang-format",
+    args = { "--style={BasedOnStyle: llvm, IndentWidth: 4}" },
+    stdin = true,
+})
 ft("python"):fmt("black")
 ft("typescript,javascript,typescriptreact"):fmt("prettier")
 ft("rust"):fmt("rustfmt")
