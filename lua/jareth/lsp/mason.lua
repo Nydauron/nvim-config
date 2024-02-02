@@ -142,9 +142,6 @@ for server, _ in pairs(all_servers_installed) do
         on_attach = require("jareth.lsp.handlers").on_attach,
         capabilities = require("jareth.lsp.handlers").capabilities,
     }
-    if server == "rust_analyzer" then
-        goto continue_configure_lsps
-    end
 
     server = vim.split(server, "@")[1]
 
