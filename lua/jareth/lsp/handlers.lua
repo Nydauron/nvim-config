@@ -69,7 +69,7 @@ local function lsp_keymaps(bufnr)
         bufnr,
         "n",
         "<leader>lh",
-        "<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled(0))<cr>",
+        "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>",
         opts
     )
     keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
@@ -101,7 +101,7 @@ M.on_attach = function(client, bufnr)
         and client.name ~= "tsserver" -- current problems with inlay hints :(
         and client.server_capabilities.inlayHintProvider
     then
-        vim.lsp.inlay_hint.enable(bufnr, true)
+        vim.lsp.inlay_hint.enable(true)
     end
 
     local status_ok, illuminate = pcall(require, "illuminate")
