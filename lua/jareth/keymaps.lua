@@ -71,7 +71,6 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- I hate q. I always accidentally press it all the time so byebye it goes
 vim.keymap.set({ "n", "v" }, "Q", "<nop>")
-vim.keymap.set({ "n", "v" }, "q", "<nop>")
 
 -- Spell check toggle
 vim.keymap.set("n", "sc", "<cmd>setlocal spell! spell?<CR>", opts)
