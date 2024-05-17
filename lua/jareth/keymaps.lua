@@ -63,15 +63,18 @@ keymap("x", "K", ":m '<-2<CR>gv=gv", opts)
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- Allows to copy to system clipboard
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- Delete to void reegister instead of paste register
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- I hate q. I always accidentally press it all the time so byebye it goes
-vim.keymap.set({"n", "v"}, "Q", "<nop>")
-vim.keymap.set({"n", "v"}, "q", "<nop>")
+vim.keymap.set({ "n", "v" }, "Q", "<nop>")
+vim.keymap.set({ "n", "v" }, "q", "<nop>")
+
+-- Spell check toggle
+vim.keymap.set("n", "sc", "<cmd>setlocal spell! spell?<CR>", opts)
 
 -- Terminal --
 -- Better terminal navigation
@@ -81,7 +84,8 @@ keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Telescope --
-keymap("n", "<leader>f", "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown())<cr>", opts)
+keymap("n", "<leader>f",
+    "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown())<cr>", opts)
 vim.keymap.set("n", "<leader>F", function()
     local opts = require('telescope.themes').get_dropdown()
     opts['no_ignore'] = true

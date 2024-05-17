@@ -1,3 +1,5 @@
+require("jareth.utils.version_at_least")
+
 -- Access colors via galaxyline's recommended naming
 -- E.g. `highlights.blue`, `highlights.yellow`
 local status_ok, highlights = pcall(require, 'rose-pine.plugins.galaxyline')
@@ -7,7 +9,7 @@ end
 
 local gl = require('galaxyline')
 local gls = gl.section
-gl.short_line_list = {'LuaTree','vista','dbui'}
+gl.short_line_list = { 'LuaTree', 'vista', 'dbui' }
 
 -- rose-pine
 -- local rose_pine_palette = require('rose-pine.palette')
@@ -33,16 +35,25 @@ colors.bg_dark = tokyo_night_palette.night.bg_dark
 colors.gray = tokyo_night_palette.default.dark3
 colors.darkblue = tokyo_night_palette.night.bg
 
-local buffer_not_empty = function ()
-  if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then
-    return true
-  end
-  return false
+local buffer_not_empty = function()
+    if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then
+        return true
+    end
+    return false
 end
 
-local is_git_repo = function ()
-    local path = vim.uv.cwd() .. "/.git"
-    local ok, err = vim.uv.fs_stat(path)
+local is_git_repo = function()
+    local uv = vim.uv
+    local minimum_version = {
+        major = 0,
+        minor = 10,
+        patch = 0,
+    }
+    if not VersionAtLeast(minimum_version, vim.version()) or uv == nil then
+        uv = vim.loop
+    end
+    local path = uv.cwd() .. "/.git"
+    local ok, err = uv.fs_stat(path)
     -- if not ok then
     --     print(err)
     -- end
@@ -50,7 +61,7 @@ local is_git_repo = function ()
 end
 
 local checkwidth = function()
-    local squeeze_width  = vim.fn.winwidth(0) / 2
+    local squeeze_width = vim.fn.winwidth(0) / 2
     if squeeze_width > 40 then
         return true
     end
@@ -58,29 +69,29 @@ local checkwidth = function()
 end
 
 local mode_color = {
-    c  = {"COMMAND", colors.magenta},
-    ce = {"NORMAL EX", colors.magenta},
-    cv = {"EX", colors.purple},
-    i  = {"INSERT", colors.teal or colors.green},
-    ic = {"INSERT COMPLETION", colors.yellow},
-    ix = {"INSERT CTRL-X",colors.yellow},
-    n  = {"NORMAL",colors.blue},
-    no = {"OPERATOR PENDING", colors.blue},
-    nov = {"OPERATOR PENDING", colors.blue},
-    noV = {"OPERATOR PENDING",colors.blue},
-    r  = {"HIT-ENTER", colors.cyan},
-    ['r?'] = {":CONFIRM", colors.cyan},
-    rm = {"MORE", colors.cyan},
-    R  = {"REPLACE", colors.purple},
-    Rv = {"VIRTUAL",colors.purple},
-    s  = {"SELECT", colors.orange},
-    S  = {"SELECT", colors.orange},
-    [''] = {"SELECT BLOCK", colors.orange},
-    ['t']  = {"TERMINAL", colors.purple},
-    v  = {"VISUAL", colors.red},
-    V  = {"VISUAL LINE", colors.red},
-    [''] = {"VISUAL BLOCK", colors.red},
-    ['!'] = {"SHELL", colors.red},
+    c      = { "COMMAND", colors.magenta },
+    ce     = { "NORMAL EX", colors.magenta },
+    cv     = { "EX", colors.purple },
+    i      = { "INSERT", colors.teal or colors.green },
+    ic     = { "INSERT COMPLETION", colors.yellow },
+    ix     = { "INSERT CTRL-X", colors.yellow },
+    n      = { "NORMAL", colors.blue },
+    no     = { "OPERATOR PENDING", colors.blue },
+    nov    = { "OPERATOR PENDING", colors.blue },
+    noV    = { "OPERATOR PENDING", colors.blue },
+    r      = { "HIT-ENTER", colors.cyan },
+    ['r?'] = { ":CONFIRM", colors.cyan },
+    rm     = { "MORE", colors.cyan },
+    R      = { "REPLACE", colors.purple },
+    Rv     = { "VIRTUAL", colors.purple },
+    s      = { "SELECT", colors.orange },
+    S      = { "SELECT", colors.orange },
+    ['']  = { "SELECT BLOCK", colors.orange },
+    ['t']  = { "TERMINAL", colors.purple },
+    v      = { "VISUAL", colors.red },
+    V      = { "VISUAL LINE", colors.red },
+    ['']  = { "VISUAL BLOCK", colors.red },
+    ['!']  = { "SHELL", colors.red },
 }
 
 vim.api.nvim_command(('hi GalaxyDiagError guifg=%s guibg=%s'):format(colors.red, colors.bg_dark or colors.bg))
@@ -91,75 +102,76 @@ gls.left = {
         FirstElement = {
             provider = function()
                 local color = (mode_color[vim.fn.mode(true)] or mode_color[vim.fn.mode(false)])[2]
-                vim.api.nvim_command('hi GalaxyFirstElement guibg='..color)
-                return ' ' end,
-            highlight = {colors.blue,colors.red}
+                vim.api.nvim_command('hi GalaxyFirstElement guibg=' .. color)
+                return ' '
+            end,
+            highlight = { colors.blue, colors.red }
         },
     },
     {
         ViMode = {
             provider = function()
                 local mode = mode_color[vim.fn.mode(true)] or mode_color[vim.fn.mode(false)]
-                vim.api.nvim_command('hi GalaxyViMode guibg='..mode[2])
+                vim.api.nvim_command('hi GalaxyViMode guibg=' .. mode[2])
                 return mode[1]
             end,
-            highlight = {colors.bg_dark or colors.bg,colors.red,'bold'},
+            highlight = { colors.bg_dark or colors.bg, colors.red, 'bold' },
         },
     },
     {
         ViModeSeparator = {
-            provider = function ()
+            provider = function()
                 local color = (mode_color[vim.fn.mode(true)] or mode_color[vim.fn.mode(false)])[2]
-                vim.api.nvim_command('hi GalaxyViModeSeparator guifg='..color)
+                vim.api.nvim_command('hi GalaxyViModeSeparator guifg=' .. color)
                 return ' '
             end,
-            highlight = {colors.red,colors.darkblue,'bold'},
+            highlight = { colors.red, colors.darkblue, 'bold' },
         }
     },
     {
         FileIcon = {
             provider = 'FileIcon',
             condition = buffer_not_empty,
-            highlight = {require('galaxyline.provider_fileinfo').get_file_icon_color,colors.darkblue},
+            highlight = { require('galaxyline.provider_fileinfo').get_file_icon_color, colors.darkblue },
         },
     },
     {
         FileName = {
-            provider = {'FileName','FileSize'},
+            provider = { 'FileName', 'FileSize' },
             condition = buffer_not_empty,
             -- separator = '',
-            highlight = {colors.magenta,colors.darkblue}
+            highlight = { colors.magenta, colors.darkblue }
         }
     },
     {
         GitPrefixSeparator = {
-            provider = function ()
+            provider = function()
                 return ''
             end,
-            condition = function ()
+            condition = function()
                 return buffer_not_empty() and is_git_repo()
             end,
-            highlight = {colors.red,colors.darkblue},
+            highlight = { colors.red, colors.darkblue },
         }
     },
     {
         GitIcon = {
             provider = function() return '󰊢 ' end,
-            condition = function ()
+            condition = function()
                 return buffer_not_empty() and is_git_repo()
             end,
-            highlight = {colors.bg_dark or colors.bg,colors.red},
+            highlight = { colors.bg_dark or colors.bg, colors.red },
         }
     },
     {
         GitBranch = {
             provider = 'GitBranch',
-            condition = function ()
+            condition = function()
                 return buffer_not_empty() and is_git_repo()
             end,
             separator = ' ',
-            separator_highlight = {colors.red,colors.bg_dark or colors.bg},
-            highlight = {colors.bg_dark or colors.bg, colors.red},
+            separator_highlight = { colors.red, colors.bg_dark or colors.bg },
+            highlight = { colors.bg_dark or colors.bg, colors.red },
         }
     },
     {
@@ -167,7 +179,7 @@ gls.left = {
             provider = 'DiffAdd',
             condition = checkwidth,
             icon = ' ',
-            highlight = {colors.teal or colors.green,colors.bg_dark or colors.bg},
+            highlight = { colors.teal or colors.green, colors.bg_dark or colors.bg },
         }
     },
     {
@@ -175,7 +187,7 @@ gls.left = {
             provider = 'DiffModified',
             condition = checkwidth,
             icon = ' ',
-            highlight = {colors.orange,colors.bg_dark or colors.bg},
+            highlight = { colors.orange, colors.bg_dark or colors.bg },
         }
     },
     {
@@ -183,7 +195,7 @@ gls.left = {
             provider = 'DiffRemove',
             condition = checkwidth,
             icon = ' ',
-            highlight = {colors.red,colors.bg_dark or colors.bg},
+            highlight = { colors.red, colors.bg_dark or colors.bg },
         }
     },
     -- {
@@ -229,34 +241,34 @@ gls.left = {
 }
 
 
-gls.right[1]= {
+gls.right[1] = {
     FileFormat = {
         provider = 'FileFormat',
         separator = '█',
-        separator_highlight = {colors.bg_highlight, colors.bg_dark or colors.bg},
-        highlight = {colors.fg, colors.bg_highlight},
+        separator_highlight = { colors.bg_highlight, colors.bg_dark or colors.bg },
+        highlight = { colors.fg, colors.bg_highlight },
     }
 }
 gls.right[2] = {
     LineInfo = {
         provider = 'LineColumn',
         separator = ' | ',
-        separator_highlight = {colors.bg_dark,colors.bg_highlight},
-        highlight = {colors.fg,colors.bg_highlight},
+        separator_highlight = { colors.bg_dark, colors.bg_highlight },
+        highlight = { colors.fg, colors.bg_highlight },
     },
 }
 gls.right[3] = {
     PerCent = {
         provider = 'LinePercent',
         separator = '',
-        separator_highlight = {colors.bg_highlight,colors.bg_dark or colors.bg},
-        highlight = {colors.fg,colors.bg_dark or colors.bg},
+        separator_highlight = { colors.bg_highlight, colors.bg_dark or colors.bg },
+        highlight = { colors.fg, colors.bg_dark or colors.bg },
     }
 }
 gls.right[4] = {
     ScrollBar = {
         provider = 'ScrollBar',
-        highlight = {colors.teal,colors.terminal_black or colors.bg},
+        highlight = { colors.teal, colors.terminal_black or colors.bg },
     }
 }
 
@@ -264,7 +276,7 @@ gls.short_line_left[1] = {
     BufferType = {
         provider = 'FileTypeName',
         separator = '',
-        separator_highlight = {colors.terminal_black or colors.bg,colors.bg_dark or colors.bg},
-        highlight = {colors.grey,colors.terminal_black or colors.bg},
+        separator_highlight = { colors.terminal_black or colors.bg, colors.bg_dark or colors.bg },
+        highlight = { colors.grey, colors.terminal_black or colors.bg },
     }
 }

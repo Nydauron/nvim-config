@@ -1,3 +1,5 @@
+require("jareth.utils.version_at_least")
+
 local M = {}
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -25,7 +27,7 @@ M.setup = function()
     local config = {
         virtual_text = true, -- disable virtual text
         signs = {
-            active = signs, -- show signs
+            active = signs,  -- show signs
         },
         update_in_insert = true,
         underline = true,
@@ -63,6 +65,13 @@ local function lsp_keymaps(bufnr)
     keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
     keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
     keymap(bufnr, "n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
+    keymap(
+        bufnr,
+        "n",
+        "<leader>lh",
+        "<cmd>lua vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled(0))<cr>",
+        opts
+    )
     keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
     keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
     keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
@@ -81,11 +90,24 @@ M.on_attach = function(client, bufnr)
     end
 
     lsp_keymaps(bufnr)
-    local status_ok, illuminate = pcall(require, "illuminate")
-    if not status_ok then
-        return
+
+    local minimum_version = {
+        major = 0,
+        minor = 10,
+        patch = 0,
+    }
+    if
+        VersionAtLeast(minimum_version, vim.version())
+        and client.name ~= "tsserver" -- current problems with inlay hints :(
+        and client.server_capabilities.inlayHintProvider
+    then
+        vim.lsp.inlay_hint.enable(bufnr, true)
     end
-    illuminate.on_attach(client)
+
+    local status_ok, illuminate = pcall(require, "illuminate")
+    if status_ok then
+        illuminate.on_attach(client)
+    end
 end
 
 return M
