@@ -73,5 +73,5 @@ if vim.fn.filereadable("/proc/sys/fs/binfmt_misc/WSLInterop") then
         \   },
         \   'cache_enabled': 0,
         \ }
-    ]])
+    ]]
 end
