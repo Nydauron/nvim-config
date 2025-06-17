@@ -77,7 +77,7 @@ return {
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     "nvim-treesitter/nvim-treesitter-context",
     "nvim-treesitter/playground",
-    "mrjones2014/nvim-ts-rainbow",
+    "hiphish/rainbow-delimiters.nvim",
 
     {
         "iamcco/markdown-preview.nvim",
