@@ -15,35 +15,6 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
-    -- cmp plugins
-    "hrsh7th/nvim-cmp", -- The completion plugin
-    "hrsh7th/cmp-buffer", -- buffer completions
-    "hrsh7th/cmp-path", -- path completions
-    "hrsh7th/cmp-cmdline", -- cmdline completions
-    "saadparwaiz1/cmp_luasnip", -- snippet completions
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-nvim-lua",
-
-    -- snippets
-    "L3MON4D3/LuaSnip", --snippet engine
-    "rafamadriz/friendly-snippets", -- a bunch of snippets to use
-
-    -- LSP
-    "williamboman/mason.nvim", -- simple to use language server installer
-    "williamboman/mason-lspconfig.nvim", -- simple to use language server installer
-    "neovim/nvim-lspconfig", -- enable LSP
-    {
-        "nvimdev/guard.nvim", -- Linters and foramatters (replaces null-ls)
-        dependencies = {
-            "nvimdev/guard-collection",
-        },
-    },
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    {
-        "Nydauron/mason-sync.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-    },
-
     {
         "folke/trouble.nvim",
         dependencies = "nvim-tree/nvim-web-devicons",
