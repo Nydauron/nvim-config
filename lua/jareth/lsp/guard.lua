@@ -13,7 +13,7 @@ ft("python"):fmt("black")
 ft("typescript,javascript,typescriptreact"):fmt("prettier")
 ft("rust"):fmt("rustfmt")
 
-require("guard").setup({
+vim.g.guard_config = {
     fmt_on_save = true,
     lsp_as_default_formatter = false,
-})
+}
