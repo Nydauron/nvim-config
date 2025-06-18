@@ -59,7 +59,7 @@ vim.cmd [[
     set list
 ]]
 
-if vim.fn.filereadable("/proc/sys/fs/binfmt_misc/WSLInterop") then
+if vim.fn.filereadable("/proc/sys/fs/binfmt_misc/WSLInterop") == 1 then
     vim.cmd [[
         let g:clipboard = {
         \   'name': 'WslClipboard',
