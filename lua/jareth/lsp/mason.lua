@@ -137,7 +137,7 @@ for server, _ in pairs(all_servers_installed) do
         goto continue_configure_lsps
     end
 
-    server = server_mappings.mason_to_lspconfig[server]
+    server = server_mappings.package_to_lspconfig[server]
     opts = {
         on_attach = require("jareth.lsp.handlers").on_attach,
         capabilities = require("jareth.lsp.handlers").capabilities,
