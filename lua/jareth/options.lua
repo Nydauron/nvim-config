@@ -41,26 +41,26 @@ local options = {
     sidescrolloff = 8,
     guifont = "monospace:h17", -- the font used in graphical neovim applications
     autochdir = false,         -- automatically changes to the current working directory of the file
-    colorcolumn = "100"        -- visually shows vertical column at char 100
+    colorcolumn = "100",       -- visually shows vertical column at char 100
 }
 
-vim.opt.shortmess:append "c"
+vim.opt.shortmess:append("c")
 
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
 
-vim.cmd "set whichwrap+=<,>,[,],h,l"
-vim.cmd [[set iskeyword+=-]]
-vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
+vim.cmd("set whichwrap+=<,>,[,],h,l")
+vim.cmd([[set iskeyword+=-]])
+vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
 
-vim.cmd [[
+vim.cmd([[
     set listchars=eol:↵,tab:>.,trail:~,extends:>,precedes:<
     set list
-]]
+]])
 
 if vim.fn.filereadable("/proc/sys/fs/binfmt_misc/WSLInterop") == 1 then
-    vim.cmd [[
+    vim.cmd([[
         let g:clipboard = {
         \   'name': 'WslClipboard',
         \   'copy': {
@@ -73,5 +73,5 @@ if vim.fn.filereadable("/proc/sys/fs/binfmt_misc/WSLInterop") == 1 then
         \   },
         \   'cache_enabled': 0,
         \ }
-    ]]
+    ]])
 end
