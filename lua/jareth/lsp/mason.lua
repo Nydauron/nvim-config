@@ -18,13 +18,16 @@ local settings = {
 
 require("mason").setup(settings)
 
-require("mason-sync").setup({
-    file = "lua/jareth/lsp/servers.json",
-    sync_on_mason_change = {
-        on_install = true,
-        on_uninstall = true,
-    },
-})
+local mason_sync_ok, mason_sync = pcall(require, "mason_sync")
+if mason_sync_ok then
+    mason_sync.setup({
+        file = "lua/jareth/lsp/servers.json",
+        sync_on_mason_change = {
+            on_install = true,
+            on_uninstall = true,
+        },
+    })
+end
 
 -- require("mason-null-ls").setup({
 --     automatic_installation = false,
@@ -35,7 +38,7 @@ require("mason-lspconfig").setup({
 })
 
 require("mason-tool-installer").setup({
-    ensure_installed = require("mason-sync").ensure_installed_servers(),
+    ensure_installed = mason_sync_ok and mason_sync.ensure_installed_servers() or {},
     auto_update = true,
     run_on_start = true,
 })
@@ -50,68 +53,69 @@ local opts = {}
 local all_servers_installed = {}
 local existing_servers = {}
 
-for _, v in pairs(require("mason-sync").get_serverlist()) do
-    all_servers_installed[v] = true
-    existing_servers[v] = true
-end
-
 for _, v in pairs(require("mason-registry").get_installed_package_names()) do
     all_servers_installed[v] = true
 end
 
-local recursive_prompt
-recursive_prompt = function(prompt, callback)
-    vim.ui.input({ prompt = prompt }, function(response)
-        if string.lower(response) == "y" or response == "" then
-            callback()
-            return
-        elseif string.lower(response) == "n" then
-            print("Oke :)")
-            return
+if mason_sync_ok then
+    for _, v in pairs(mason_sync.get_serverlist()) do
+        all_servers_installed[v] = true
+        existing_servers[v] = true
+    end
+
+    local recursive_prompt
+    recursive_prompt = function(prompt, callback)
+        vim.ui.input({ prompt = prompt }, function(response)
+            if string.lower(response) == "y" or response == "" then
+                callback()
+                return
+            elseif string.lower(response) == "n" then
+                print("Oke :)")
+                return
+            end
+            print(("%q was not a valid response."):format(response))
+            recursive_prompt(callback)
+        end)
+    end
+
+    local sync_server_list = function()
+        local new_server_list = {}
+        for k, _ in pairs(all_servers_installed) do
+            table.insert(new_server_list, k)
         end
-        print(("%q was not a valid response."):format(response))
-        recursive_prompt(callback)
-    end)
-end
-
-local sync_server_list = function()
-    local new_server_list = {}
-    for k, _ in pairs(all_servers_installed) do
-        table.insert(new_server_list, k)
-    end
-    local file = assert(io.open(server_file, "w"))
-    local json_encoded =
+        local file = assert(io.open(server_file, "w"))
+        local json_encoded =
         JSON:encode(new_server_list, nil, { pretty = true, indent = "    ", array_newline = true })
-    file:write(json_encoded)
-    local status_ok = file:close()
+        file:write(json_encoded)
+        local status_ok = file:close()
 
-    if not status_ok then
-        print(
-            ("An issue occurred when closing the file. Please see if the changes were written to %q"):format(
-                server_file
-            )
-        )
-    end
-    vim.ui.input({ prompt = "Please enter a commit message: " }, function(msg)
-        vim.cmd(
-            ("Git --work-tree %q --git-dir %q commit -m %q -- %q"):format(
-                config_worktree,
-                config_git_dir,
-                msg,
-                server_file
-            )
-        )
-        recursive_prompt("Ready to push? (Y/n) ", function()
-            vim.cmd(
-                ("Git --work-tree %q --git-dir %q push origin master"):format(
-                    config_worktree,
-                    config_git_dir
+        if not status_ok then
+            print(
+                ("An issue occurred when closing the file. Please see if the changes were written to %q"):format(
+                    server_file
                 )
             )
-            vim.notify("LSP server list has been updated successfully")
+        end
+        vim.ui.input({ prompt = "Please enter a commit message: " }, function(msg)
+            vim.cmd(
+                ("Git --work-tree %q --git-dir %q commit -m %q -- %q"):format(
+                    config_worktree,
+                    config_git_dir,
+                    msg,
+                    server_file
+                )
+            )
+            recursive_prompt("Ready to push? (Y/n) ", function()
+                vim.cmd(
+                    ("Git --work-tree %q --git-dir %q push origin master"):format(
+                        config_worktree,
+                        config_git_dir
+                    )
+                )
+                vim.notify("LSP server list has been updated successfully")
+            end)
         end)
-    end)
-end
+    end
 
 for k, _ in pairs(all_servers_installed) do
     if existing_servers[k] == true then
@@ -128,6 +132,7 @@ for k, _ in pairs(all_servers_installed) do
     ::server_check_continue::
 end
 ::end_server_list_check::
+end
 
 local server_mappings = require("mason-lspconfig").get_mappings()
 

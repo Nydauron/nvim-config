@@ -11,10 +11,10 @@ return {
                 },
             },
             "WhoIsSethDaniel/mason-tool-installer.nvim",
-            {
-                "Nydauron/mason-sync.nvim",
-                dependencies = { "nvim-lua/plenary.nvim" },
-            },
+            -- {
+            --     "Nydauron/mason-sync.nvim",
+            --     dependencies = { "nvim-lua/plenary.nvim" },
+            -- },
         },
         config = function()
             require("jareth.lsp.mason")
