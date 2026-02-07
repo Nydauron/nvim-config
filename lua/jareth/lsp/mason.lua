@@ -155,6 +155,7 @@ for server, _ in pairs(all_servers_installed) do
         opts = vim.tbl_deep_extend("force", conf_opts, opts)
     end
 
-    lspconfig[server].setup(opts)
+    vim.lsp.config(server, opts)
+    vim.lsp.enable(server)
     ::continue_configure_lsps::
 end
