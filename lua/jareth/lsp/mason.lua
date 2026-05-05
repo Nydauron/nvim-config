@@ -18,7 +18,7 @@ local settings = {
 
 require("mason").setup(settings)
 
-local mason_sync_ok, mason_sync = pcall(require, "mason_sync")
+local mason_sync_ok, mason_sync = pcall(require, "mason-sync")
 if mason_sync_ok then
     mason_sync.setup({
         file = "lua/jareth/lsp/servers.json",

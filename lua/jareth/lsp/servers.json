@@ -8,7 +8,6 @@
     "yaml-language-server",
     "html-lsp",
     "json-lsp",
-    "rust-analyzer",
     "tectonic",
     "cpptools",
     "css-lsp",
@@ -19,12 +18,14 @@
     "black",
     "clangd",
     "prettier",
-    "pyright",
     "ansible-lint",
     "tailwindcss-language-server",
     "astro-language-server",
     "cmakelang",
     "cpplint",
+    "phpactor",
+    "rust-analyzer",
+    "pyright",
     "selene",
     "clang-format"
 ]
