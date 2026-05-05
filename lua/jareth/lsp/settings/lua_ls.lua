@@ -12,11 +12,11 @@ return {
                 },
             },
             hint = {
-                enable = true
+                enable = true,
             },
         },
         telemtry = {
-            enable = false
+            enable = false,
         },
     },
 }

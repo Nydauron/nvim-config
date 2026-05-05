@@ -1,11 +1,11 @@
 return {
     {
-        "neovim/nvim-lspconfig",                 -- enable LSP
+        "neovim/nvim-lspconfig", -- enable LSP
         dependencies = {
-            "williamboman/mason.nvim",           -- simple to use language server installer
+            "williamboman/mason.nvim", -- simple to use language server installer
             "williamboman/mason-lspconfig.nvim", -- simple to use language server installer
             {
-                "nvimdev/guard.nvim",            -- Linters and foramatters (replaces null-ls)
+                "nvimdev/guard.nvim", -- Linters and foramatters (replaces null-ls)
                 dependencies = {
                     "nvimdev/guard-collection",
                 },
@@ -20,6 +20,6 @@ return {
             require("jareth.lsp.mason")
             require("jareth.lsp.guard")
             require("jareth.lsp.handlers").setup()
-        end
-    }
+        end,
+    },
 }

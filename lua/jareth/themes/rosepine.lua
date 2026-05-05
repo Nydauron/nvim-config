@@ -1,6 +1,6 @@
-require('rose-pine').setup({
+require("rose-pine").setup({
     --- @usage 'main' | 'moon'
-    dark_variant = 'main',
+    dark_variant = "main",
     bold_vert_split = true,
     dim_nc_background = false,
     disable_background = false,
@@ -9,25 +9,25 @@ require('rose-pine').setup({
 
     --- @usage string hex value or named color from rosepinetheme.com/palette
     groups = {
-        background = 'none',
-        panel = 'surface',
-        border = 'highlight_med',
-        comment = 'muted',
-        link = 'iris',
-        punctuation = 'subtle',
+        background = "none",
+        panel = "surface",
+        border = "highlight_med",
+        comment = "muted",
+        link = "iris",
+        punctuation = "subtle",
 
-        error = 'love',
-        hint = 'iris',
-        info = 'foam',
-        warn = 'gold',
+        error = "love",
+        hint = "iris",
+        info = "foam",
+        warn = "gold",
 
         headings = {
-            h1 = 'iris',
-            h2 = 'foam',
-            h3 = 'rose',
-            h4 = 'gold',
-            h5 = 'pine',
-            h6 = 'foam',
+            h1 = "iris",
+            h2 = "foam",
+            h3 = "rose",
+            h4 = "gold",
+            h5 = "pine",
+            h6 = "foam",
         },
         -- or set all headings at once
         -- headings = 'subtle'
@@ -35,11 +35,11 @@ require('rose-pine').setup({
 
     -- Change specific vim highlight groups
     highlight_groups = {
-        ColorColumn = { bg = 'surface' },
-        CursorLine = { bg = 'foam', blend = 10 },
-        LspInlayHint = { bg = 'foam', fg = 'iris', blend = 25 }
-    }
+        ColorColumn = { bg = "surface" },
+        CursorLine = { bg = "foam", blend = 10 },
+        LspInlayHint = { bg = "foam", fg = "iris", blend = 25 },
+    },
 })
 
 -- set colorscheme after options
-vim.cmd('colorscheme rose-pine')
+vim.cmd("colorscheme rose-pine")

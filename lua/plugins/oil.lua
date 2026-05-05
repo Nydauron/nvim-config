@@ -13,11 +13,11 @@ return {
                 },
                 view_options = {
                     show_hidden = true,
-                }
+                },
             })
 
             -- Override netrw :Ex keymapping
             vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-        end
+        end,
     },
 }
