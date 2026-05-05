@@ -80,8 +80,11 @@ if mason_sync_ok then
             table.insert(new_server_list, k)
         end
         local file = assert(io.open(server_file, "w"))
-        local json_encoded =
-        JSON:encode(new_server_list, nil, { pretty = true, indent = "    ", array_newline = true })
+        local json_encoded = JSON:encode(
+            new_server_list,
+            nil,
+            { pretty = true, indent = "    ", array_newline = true }
+        )
         file:write(json_encoded)
         local status_ok = file:close()
 
@@ -113,21 +116,21 @@ if mason_sync_ok then
         end)
     end
 
-for k, _ in pairs(all_servers_installed) do
-    if existing_servers[k] == true then
-        goto server_check_continue
+    for k, _ in pairs(all_servers_installed) do
+        if existing_servers[k] == true then
+            goto server_check_continue
+        end
+        print(
+            "Some servers were not installed by the given config (e.g. installed thru Mason interface)"
+        )
+        recursive_prompt(
+            "Would you like to sync and commit this updated server list? (Y/n) ",
+            sync_server_list
+        )
+        goto end_server_list_check
+        ::server_check_continue::
     end
-    print(
-        "Some servers were not installed by the given config (e.g. installed thru Mason interface)"
-    )
-    recursive_prompt(
-        "Would you like to sync and commit this updated server list? (Y/n) ",
-        sync_server_list
-    )
-    goto end_server_list_check
-    ::server_check_continue::
-end
-::end_server_list_check::
+    ::end_server_list_check::
 end
 
 local server_mappings = require("mason-lspconfig").get_mappings()
