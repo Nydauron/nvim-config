@@ -28,12 +28,10 @@ gl.short_line_list = { 'LuaTree', 'vista', 'dbui' }
 --     red = rose_pine_palette.love,
 -- }
 
-local tokyo_night_palette = require("tokyonight.colors")
-local colors = tokyo_night_palette.default
-colors.bg = tokyo_night_palette.night.bg
-colors.bg_dark = tokyo_night_palette.night.bg_dark
-colors.gray = tokyo_night_palette.default.dark3
-colors.darkblue = tokyo_night_palette.night.bg
+local tokyo_night_palette = require("tokyonight.colors").setup({ setup = "night" })
+local colors = tokyo_night_palette
+colors.gray = tokyo_night_palette.dark3
+colors.darkblue = tokyo_night_palette.bg
 
 local buffer_not_empty = function()
     if vim.fn.empty(vim.fn.expand('%:t')) ~= 1 then
