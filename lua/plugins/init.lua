@@ -45,9 +45,7 @@ return {
     },
     "nvim-telescope/telescope-media-files.nvim",
 
-    { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-    "nvim-treesitter/nvim-treesitter-context",
-    "nvim-treesitter/playground",
+    { "nvim-treesitter/nvim-treesitter", lazy = false, branch = "main", build = ":TSUpdate" },
     "hiphish/rainbow-delimiters.nvim",
 
     {
