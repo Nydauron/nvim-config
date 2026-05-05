@@ -7,7 +7,10 @@ if not status_ok then
     return
 end
 
-local gl = require("galaxyline")
+local status_ok, gl = pcall(require, "galaxyline")
+if not status_ok then
+    return
+end
 local gls = gl.section
 gl.short_line_list = { "LuaTree", "vista", "dbui" }
 

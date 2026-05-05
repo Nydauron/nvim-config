@@ -1,1 +1,0 @@
-require("jareth.themes.tokyonight")
