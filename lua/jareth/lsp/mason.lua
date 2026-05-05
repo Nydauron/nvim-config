@@ -29,10 +29,6 @@ if mason_sync_ok then
     })
 end
 
--- require("mason-null-ls").setup({
---     automatic_installation = false,
--- })
-
 require("mason-lspconfig").setup({
     automatic_installation = false,
 })
